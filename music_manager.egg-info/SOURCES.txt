@@ -1,0 +1,13 @@
+pyproject.toml
+app/__init__.py
+app/database.py
+app/language.py
+app/metadata.py
+app/models.py
+app/musicbrainz.py
+app/scanner.py
+app/scoring.py
+music_manager.egg-info/PKG-INFO
+music_manager.egg-info/SOURCES.txt
+music_manager.egg-info/dependency_links.txt
+music_manager.egg-info/top_level.txt
