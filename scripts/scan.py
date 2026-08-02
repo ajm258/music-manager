@@ -1,24 +1,31 @@
-import pprint
-import sys
 from dataclasses import asdict
+import pprint
 
 from app.database import Database
-from app.language import detect_language
-from app.metadata import read_metadata
-from app.normalize import normalize
-from app.scoring import score
-from app.musicbrainz import lookup_track
-from app.hash import sha256
-
-track = read_metadata(sys.argv[1])
-track.file_hash = sha256(track.source_path)
-track = normalize(track)
-track = lookup_track(track)
-track = detect_language(track)
-track = score(track)
+from app.ingest import find_audio_files
+from app.pipeline import process
 
 db = Database()
-db.save_track(track)
+
+count = 0
+
+for file in find_audio_files("/srv/pool/media/music/work"):
+
+    print(f"Processing: {file.name}")
+
+    try:
+
+        track = process(file)
+
+        db.save_track(track)
+
+        count += 1
+
+    except Exception as e:
+
+        print(f"FAILED: {e}")
+
 db.close()
 
-pprint.pp(asdict(track))
+print()
+print(f"Processed {count} tracks.")

@@ -1,0 +1,39 @@
+library:
+
+  source: /srv/pool/media/music/work
+
+  publish: /srv/pool/media/music/library
+
+database:
+
+  path: /srv/apps/music-manager/database/music.db
+
+reports:
+
+  path: /srv/apps/music-manager/reports
+
+logs:
+
+  path: /srv/apps/music-manager/logs
+
+musicbrainz:
+
+  app_name: music-manager
+  version: "0.1"
+  email: your@email.com
+
+processing:
+
+  workers: 4
+
+  hash_algorithm: sha256
+
+  overwrite_tags: true
+
+  musicbrainz_lookup: true
+
+  chromaprint: false
+
+  ai_genre: false
+
+  mood_detection: false
