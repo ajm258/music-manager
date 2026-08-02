@@ -1,5 +1,5 @@
 from difflib import SequenceMatcher
-
+from app.logger import logger
 
 def similarity(a, b):
     if not a or not b:

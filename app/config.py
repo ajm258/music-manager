@@ -1,4 +1,5 @@
 from pathlib import Path
+from app.logger import logger
 
 import yaml
 

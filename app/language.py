@@ -1,4 +1,5 @@
 from app.models import Track
+from app.logger import logger
 
 # Initial artist rules (will grow over time)
 ARTIST_LANGUAGE = {

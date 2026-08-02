@@ -1,6 +1,6 @@
 from pathlib import Path
 from mutagen import File
-
+from app.logger import logger
 from app.models import Track
 
 

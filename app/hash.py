@@ -1,5 +1,5 @@
 import hashlib
-
+from app.logger import logger
 
 def sha256(filename: str) -> str:
 
@@ -15,3 +15,7 @@ def sha256(filename: str) -> str:
             h.update(chunk)
 
     return h.hexdigest()
+
+def calculate_hash(track):
+    track.file_hash = sha256(track.source_path)
+    return track

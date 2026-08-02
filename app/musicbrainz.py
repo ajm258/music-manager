@@ -1,5 +1,5 @@
 import musicbrainzngs
-
+from app.logger import logger
 from app.config import CONFIG
 
 musicbrainzngs.set_useragent(
@@ -11,7 +11,7 @@ musicbrainzngs.set_useragent(
 from app.models import Track
 
 
-def lookup_track(track: Track) -> Track:
+def enrich(track: Track) -> Track:
     try:
         result = musicbrainzngs.search_recordings(
             artist=track.artist,

@@ -1,4 +1,5 @@
 from app.models import Track
+from app.logger import logger
 
 REQUIRED_FIELDS = [
     "title",

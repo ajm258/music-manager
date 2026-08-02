@@ -1,8 +1,8 @@
 from pathlib import Path
-
+from app.logger import logger
 from app.metadata import read_metadata
 from app.normalize import normalize
-from app.musicbrainz import lookup_track
+from app.musicbrainz import enrich
 from app.language import detect_language
 from app.scoring import score
 from app.hash import sha256

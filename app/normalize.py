@@ -10,6 +10,10 @@ ARTIST_ALIASES = {
 
 def normalize(track: Track) -> Track:
 
+    track.title = track.title.strip()
+    track.artist = track.artist.strip()
+    track.album = track.album.strip()
+
     if track.artist in ARTIST_ALIASES:
         track.artist = ARTIST_ALIASES[track.artist]
 

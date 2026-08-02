@@ -1,6 +1,6 @@
 import sqlite3
 from dataclasses import asdict
-
+from app.logger import logger
 from app.models import Track
 
 from app.config import CONFIG
@@ -52,7 +52,8 @@ class Database:
                     artwork=:artwork,
                     file_hash=:file_hash,
                     metadata_score=:metadata_score,
-                    status=:status
+                    status=:status,
+                    identification_confidence=:identification_confidence
                 WHERE id=:id
                 """,
                 data,
@@ -83,7 +84,8 @@ class Database:
                     artwork,
                     file_hash,
                     metadata_score,
-                    status
+                    status,
+                    identification_confidence
                 )
                 VALUES
                 (
@@ -106,7 +108,8 @@ class Database:
                     :artwork,
                     :file_hash,
                     :metadata_score,
-                    :status
+                    :status,
+                    :identification_confidence
                 )
                 """,
                 data,
