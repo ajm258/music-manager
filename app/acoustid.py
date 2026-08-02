@@ -1,0 +1,34 @@
+import subprocess
+import acoustid
+
+from app.config import CONFIG
+
+
+def identify(filename):
+
+    result = subprocess.run(
+        ["fpcalc", filename],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+
+    duration = None
+    fingerprint = None
+
+    for line in result.stdout.splitlines():
+
+        if line.startswith("DURATION="):
+            duration = int(line.split("=")[1])
+
+        elif line.startswith("FINGERPRINT="):
+            fingerprint = line.split("=", 1)[1]
+
+    api_key = CONFIG["acoustid"]["api_key"]
+
+    return acoustid.lookup(
+        api_key,
+        fingerprint,
+        duration,
+        meta="recordings"
+    )

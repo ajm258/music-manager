@@ -1,0 +1,3 @@
+def fingerprint(track):
+    ...
+    return track

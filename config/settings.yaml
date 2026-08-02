@@ -39,3 +39,7 @@ processing:
   ai_genre: false
 
   mood_detection: false
+
+acoustid:
+
+  api_key: "lU4jOqCLLD"
