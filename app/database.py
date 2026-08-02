@@ -3,7 +3,8 @@ from dataclasses import asdict
 
 from app.models import Track
 
-DB_FILE = "/srv/apps/music-manager/database/music.db"
+from app.config import CONFIG
+DB_FILE = CONFIG["database"]["path"]
 
 
 class Database:

@@ -35,3 +35,8 @@ class Track:
     status: str = "NEW"
 
     needs_review: bool = False
+    
+    acoustid: str | None = None
+    mood: str | None = None
+    subgenre: str | None = None
+    review_reason: str | None = None

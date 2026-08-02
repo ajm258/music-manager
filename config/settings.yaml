@@ -4,6 +4,8 @@ library:
 
   publish: /srv/pool/media/music/library
 
+  quarantine: /srv/pool/media/music/quarantine
+
 database:
 
   path: /srv/apps/music-manager/database/music.db

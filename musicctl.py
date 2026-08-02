@@ -5,7 +5,7 @@ import argparse
 from app.database import Database
 from app.ingest import find_audio_files
 from app.pipeline import process
-
+from app.config import CONFIG
 
 def ingest(path):
 
@@ -50,12 +50,19 @@ def main():
 
     ingest_cmd = sub.add_parser("ingest")
 
-    ingest_cmd.add_argument("path")
+    #ingest_cmd.add_argument("path")
+    ingest_cmd.add_argument(
+      "path",
+      nargs="?",
+    )
 
     args = parser.parse_args()
 
     if args.command == "ingest":
-        ingest(args.path)
+        path = args.path or CONFIG["library"]["source"]
+
+        ingest(path)
+        #ingest(args.path)
     else:
         parser.print_help()
 

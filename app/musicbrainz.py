@@ -1,9 +1,11 @@
 import musicbrainzngs
 
+from app.config import CONFIG
+
 musicbrainzngs.set_useragent(
-    "music-manager",
-    "0.1",
-    "amit@example.com"
+    CONFIG["musicbrainz"]["app_name"],
+    CONFIG["musicbrainz"]["version"],
+    CONFIG["musicbrainz"]["email"],
 )
 
 from app.models import Track
