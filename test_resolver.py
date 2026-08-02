@@ -21,5 +21,6 @@ best, score = resolve(track, candidates)
 
 print(f"Resolver score: {score}")
 print()
-
+#print
 pprint(best)
+
