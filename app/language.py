@@ -1,19 +1,20 @@
 from app.models import Track
 from app.logger import logger
 
-# Initial artist rules (will grow over time)
 ARTIST_LANGUAGE = {
-    "Michael Learns To Rock": ("English", 100),
-    "Michael Jackson": ("English", 100),
-    "A. R. Rahman": ("Mixed", 60),   # many languages
-    "Lata Mangeshkar": ("Mixed", 50),
+    "michael learns to rock": ("English", 100),
+    "michael jackson": ("English", 100),
+    "a. r. rahman": ("Mixed", 60),
+    "lata mangeshkar": ("Mixed", 50),
 }
 
 
 def detect_language(track: Track) -> Track:
 
-    if track.artist in ARTIST_LANGUAGE:
-        language, confidence = ARTIST_LANGUAGE[track.artist]
+    artist = (track.artist or "").strip().lower()
+
+    if artist in ARTIST_LANGUAGE:
+        language, confidence = ARTIST_LANGUAGE[artist]
 
         track.language = language
         track.language_confidence = confidence

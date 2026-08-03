@@ -1,0 +1,96 @@
+from difflib import SequenceMatcher
+
+
+def similarity(a, b):
+    return SequenceMatcher(
+        None,
+        (a or "").lower(),
+        (b or "").lower(),
+    ).ratio()
+
+
+def score(track, candidate):
+
+    score = 0
+
+    # Title (40)
+    score += similarity(
+        track.title,
+        candidate.get("title")
+    ) * 40
+
+    # Artist (30)
+    artist = ""
+
+    if candidate.get("artist-credit"):
+        artist = candidate["artist-credit"][0]["name"]
+
+    score += similarity(
+        track.artist,
+        artist
+    ) * 30
+
+    # Album (20)
+    album = ""
+
+    if candidate.get("release-list"):
+        album = candidate["release-list"][0].get("title", "")
+
+    score += similarity(
+        track.album,
+        album
+    ) * 20
+
+    # Duration (10)
+
+    if candidate.get("length"):
+
+        seconds = int(candidate["length"]) / 1000
+
+        diff = abs(seconds - track.duration)
+
+        if diff < 2:
+            score += 10
+
+    return score
+
+
+def resolve(track, candidates):
+
+    best = None
+    best_score = -1
+
+    print()
+    #print("MusicBrainz candidates")
+    print("----------------------")
+
+    for candidate in candidates:
+
+        s = score(track, candidate)
+
+        artist = ""
+
+        if candidate.get("artist-credit"):
+            artist = candidate["artist-credit"][0]["name"]
+
+        album = ""
+
+        if candidate.get("release-list"):
+            album = candidate["release-list"][0].get("title", "")
+
+        #print(
+        #    f"{s:5.1f} | "
+        #    f"{candidate['title']} | "
+        #    f"{artist} | "
+        #    f"{album}"
+        #)
+
+        if s > best_score:
+            best_score = s
+            best = candidate
+
+    print("----------------------")
+    #print(f"Winner: {best['title']} ({best_score:.1f})")
+    print()
+
+    return best, round(best_score, 1)

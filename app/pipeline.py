@@ -18,6 +18,7 @@ PIPELINE = [
     normalize,
     #lookup_track,
     enrich,
+    normalize,
     detect_language,
     calculate_hash,
     score,
