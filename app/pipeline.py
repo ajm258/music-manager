@@ -8,6 +8,7 @@ from app.hash import calculate_hash
 from app.acoustid import enrich as acoustid
 from app.logger import logger
 from app.publisher import publish
+from app.duplicates import check
 
 #def calculate_hash(track):
 #    track.file_hash = sha256(track.source_path)
@@ -21,6 +22,7 @@ PIPELINE = [
     normalize,
     detect_language,
     calculate_hash,
+    check,
     score,
     acoustid,
     score,
@@ -34,5 +36,8 @@ def process(filename):
 
     for stage in PIPELINE:
         track = stage(track)
+
+        if track.status in ("FAILED","DUPLICATE"):
+             break
 
     return track

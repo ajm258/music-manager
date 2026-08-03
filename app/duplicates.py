@@ -1,29 +1,32 @@
-from collections import defaultdict
+from app.database import Database
 
 
-def group_by(tracks, field):
+def check(track):
 
-    groups = defaultdict(list)
+    db = Database()
 
-    for track in tracks:
+    # Exact duplicate
+    existing = db.get_track_by_hash(track.file_hash)
+    print(track.file_hash)
+    print(existing)
+    if existing:
+        db.close()
+        track.status = "DUPLICATE"
+        track.review_reason = "Exact file already exists"
+        return track
 
-        value = getattr(track, field)
-
-        if not value:
-            continue
-
-        groups[value].append(track)
-
-    return {
-        key: value
-        for key, value in groups.items()
-        if len(value) > 1
-    }
+    # Same recording
+    existing = db.get_track_by_recording(track.mb_recording_id)
 
 
-def exact_duplicates(tracks):
-    return group_by(tracks, "file_hash")
+    print(existing)
 
+    if existing:
+        db.close()
+        track.status = "DUPLICATE"
+        track.review_reason = "Recording already exists"
+        return track
 
-def recording_duplicates(tracks):
-    return group_by(tracks, "mb_recording_id")
+    db.close()
+
+    return track

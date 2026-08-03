@@ -4,6 +4,7 @@ from app.config import CONFIG
 import shutil
 import re
 
+
 def destination(track):
 
     language = track.language or "Unknown"
@@ -26,6 +27,14 @@ def safe(text):
 
 
 def publish(track):
+
+    print(f"Publisher status: {track.status}")
+    print(f"--------------------------------") 
+
+    if track.status == "DUPLICATE":
+         logger.info("Skipping duplicate: %s", track.source_path)
+         return track
+
 
     destination_path = (
         Path(CONFIG["library"]["publish"])

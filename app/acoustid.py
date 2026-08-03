@@ -8,25 +8,37 @@ from app.resolver import resolve
 
 def fingerprint(filename):
 
-    result = subprocess.run(
-        ["fpcalc", filename],
-        capture_output=True,
-        text=True,
-        check=True,
-    )
+    try:
 
-    duration = None
-    fingerprint = None
+        result = subprocess.run(
+            ["fpcalc", filename],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
 
-    for line in result.stdout.splitlines():
+    except Exception as e:
 
-        if line.startswith("DURATION="):
-            duration = int(line.split("=")[1])
+        logger.error(
+            "Fingerprint failed for %s: %s",
+            filename,
+            e,
+        )
 
-        elif line.startswith("FINGERPRINT="):
-            fingerprint = line.split("=", 1)[1]
+        return None, None
 
-    return duration, fingerprint
+        duration = None
+        fingerprint = None
+
+        for line in result.stdout.splitlines():
+
+            if line.startswith("DURATION="):
+                duration = int(line.split("=")[1])
+
+            elif line.startswith("FINGERPRINT="):
+                fingerprint = line.split("=", 1)[1]
+
+        return duration, fingerprint
 
 
 def identify(duration, fingerprint):
@@ -50,6 +62,13 @@ def enrich(track):
         return track
 
     duration, fp = fingerprint(track.source_path)
+
+    if fp is None:
+
+      track.status = "FAILED"
+      track.review_reason = "Fingerprint generation failed"
+
+      return track
 
     result = identify(duration, fp)
 

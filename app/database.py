@@ -133,3 +133,46 @@ class Database:
 
     def close(self):
         self.conn.close()
+
+    def get_track_by_hash(self, file_hash):
+
+        cursor = self.conn.cursor()
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                file_hash,
+                mb_recording_id,
+                source_path,
+                status
+            FROM tracks
+            WHERE file_hash = ?
+            """,
+            (file_hash,),
+        )
+
+        return cursor.fetchone()
+
+    def get_track_by_recording(self, recording_id):
+
+        if not recording_id:
+            return None
+
+        cursor = self.conn.cursor()
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                filename,
+                mb_recording_id,
+                file_hash,
+                status
+            FROM tracks
+            WHERE mb_recording_id = ?
+            """,
+            (recording_id,),
+        )
+
+        return cursor.fetchone()
