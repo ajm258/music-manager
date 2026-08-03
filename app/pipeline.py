@@ -9,6 +9,8 @@ from app.acoustid import enrich as acoustid
 from app.logger import logger
 from app.publisher import publish
 from app.duplicates import check
+from app.genre import enrich as genre
+#from app.artwork import enrich as artwork
 
 #def calculate_hash(track):
 #    track.file_hash = sha256(track.source_path)
@@ -17,8 +19,10 @@ from app.duplicates import check
 
 PIPELINE = [
     normalize,
+    genre,
     #lookup_track,
     enrich,
+    #artwork,
     normalize,
     detect_language,
     calculate_hash,

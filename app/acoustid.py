@@ -27,18 +27,18 @@ def fingerprint(filename):
 
         return None, None
 
-        duration = None
-        fingerprint = None
+    duration = None
+    fingerprint = None
 
-        for line in result.stdout.splitlines():
+    for line in result.stdout.splitlines():
 
-            if line.startswith("DURATION="):
-                duration = int(line.split("=")[1])
+        if line.startswith("DURATION="):
+            duration = int(line.split("=")[1])
 
-            elif line.startswith("FINGERPRINT="):
-                fingerprint = line.split("=", 1)[1]
+        elif line.startswith("FINGERPRINT="):
+            fingerprint = line.split("=", 1)[1]
 
-        return duration, fingerprint
+    return duration, fingerprint
 
 
 def identify(duration, fingerprint):
@@ -65,10 +65,10 @@ def enrich(track):
 
     if fp is None:
 
-      track.status = "FAILED"
-      track.review_reason = "Fingerprint generation failed"
+        track.status = "FAILED"
+        track.review_reason = "Fingerprint generation failed"
 
-      return track
+        return track
 
     result = identify(duration, fp)
 

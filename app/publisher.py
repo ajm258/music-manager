@@ -3,7 +3,7 @@ from app.logger import logger
 from app.config import CONFIG
 import shutil
 import re
-
+from app.artwork import download
 
 def destination(track):
 
@@ -50,6 +50,11 @@ def publish(track):
         track.source_path,
         destination_path,
     )
+
+    if track.mb_release_id:
+        track.artwork = download(
+           track.mb_release_id,
+       )
 
     track.library_path = str(destination_path)
 

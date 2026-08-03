@@ -23,7 +23,7 @@ class Track:
     mb_recording_id: Optional[str] = None
     mb_release_id: Optional[str] = None
 
-    artwork: bool = False
+    artwork: str | None = None
 
     language: Optional[str] = None
     language_confidence: int = 0
@@ -44,5 +44,10 @@ class Track:
     identification_confidence: int = 0
 
     fingerprint: str | None = None
-    replaygain: float | None = None
     library_path: str | None = None
+
+    replaygain_track_gain: float | None = None
+    replaygain_track_peak: float | None = None
+
+    replaygain_album_gain: float | None = None
+    replaygain_album_peak: float | None = None

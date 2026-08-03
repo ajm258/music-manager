@@ -6,6 +6,8 @@ library:
 
   quarantine: /srv/pool/media/music/quarantine
 
+  metadata: /srv/pool/media/music/library/.metadata
+
 database:
 
   path: /srv/apps/music-manager/database/music.db
@@ -43,3 +45,6 @@ processing:
 acoustid:
 
   api_key: "lU4jOqCLLD"
+
+artwork:
+  download: true

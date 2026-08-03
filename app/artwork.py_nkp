@@ -1,0 +1,39 @@
+import requests
+
+from app.config import CONFIG
+from app.models import Track
+
+
+def enrich(track: Track) -> Track:
+
+    if not CONFIG["artwork"]["download"]:
+        return track
+
+    if not track.mb_release_id:
+        return track
+
+    url = (
+        "https://coverartarchive.org/release/"
+        f"{track.mb_release_id}/front"
+    )
+
+    try:
+
+        response = requests.get(
+            url,
+            timeout=10,
+        )
+
+        if response.status_code == 200:
+
+            artwork = track.source_path.rsplit(".", 1)[0] + ".jpg"
+
+            with open(artwork, "wb") as f:
+                f.write(response.content)
+
+            track.artwork = True
+
+    except Exception:
+        pass
+
+    return track
