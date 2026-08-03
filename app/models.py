@@ -42,3 +42,7 @@ class Track:
     review_reason: str | None = None
 
     identification_confidence: int = 0
+
+    fingerprint: str | None = None
+    replaygain: float | None = None
+    library_path: str | None = None

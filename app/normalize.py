@@ -10,9 +10,17 @@ ARTIST_ALIASES = {
 
 def normalize(track: Track) -> Track:
 
-    track.title = track.title.strip()
-    track.artist = track.artist.strip()
-    track.album = track.album.strip()
+    #def clean(value):
+
+    #if value is None:
+     #   return None
+
+    #return value.strip()
+    def clean(value):
+        return value.strip() if value else None
+    #track.title = track.title.strip()
+    #track.artist = track.artist.strip()
+    #track.album = track.album.strip()
 
     if track.artist in ARTIST_ALIASES:
         track.artist = ARTIST_ALIASES[track.artist]

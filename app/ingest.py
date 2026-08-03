@@ -18,13 +18,28 @@ SUPPORTED_EXTENSIONS = {
 }
 
 
+#def find_audio_files(root: str):
+
+#    root = Path(root)
+
+#    for file in root.rglob("*"):
+#        if file.suffix.lower() in SUPPORTED_EXTENSIONS:
+#            yield file
+
 def find_audio_files(root: str):
 
     root = Path(root)
 
+    if root.is_file():
+
+        if root.suffix.lower() in SUPPORTED_EXTENSIONS:
+            yield root
+
+        return
+
     for file in root.rglob("*"):
+
         if file.suffix.lower() in SUPPORTED_EXTENSIONS:
             yield file
-
 
 

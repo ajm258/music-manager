@@ -5,6 +5,19 @@ from pprint import pprint
 from app.mbresolver import resolve
 from app.canonical import build
 from app.canonical import apply
+import logging
+
+#logging.getLogger("musicbrainzngs.mbxml").setLevel(logging.ERROR)
+#logging.getLogger("musicbrainzngs.musicbrainz").setLevel(logging.ERROR)
+
+logging.getLogger("music-manager").setLevel(logging.ERROR)
+logging.getLogger("musicbrainzngs").setLevel(logging.ERROR)
+
+
+#import logging
+
+#for name in logging.root.manager.loggerDict:
+#    print(name)
 
 musicbrainzngs.set_useragent(
     CONFIG["musicbrainz"]["app_name"],
@@ -30,11 +43,14 @@ def enrich(track: Track) -> Track:
             return track
 
         #recording = recordings[0]
-   
+
         recording, confidence = resolve(
                track,
                recordings,
         )
+
+        if recording is None or confidence < 80:
+             return track
 
         track.mb_recording_id = recording.get("id")
 
@@ -88,17 +104,25 @@ def canonical(track):
 
     return track
 
+def same(a, b):
+    return (a or "").casefold() == (b or "").casefold()
+
+
 def apply(track, canonical):
 
-    if track.title.lower() == canonical.title.lower():
+    if not same(track.title, canonical.title):
         track.title = canonical.title
 
-    if track.artist.lower() == canonical.artist.lower():
+    if not same(track.artist, canonical.artist):
         track.artist = canonical.artist
 
-    if track.album.lower() == canonical.album.lower():
+    if not same(track.album, canonical.album):
         track.album = canonical.album
 
-    # Don't update year automatically
+    if track.year != canonical.year:
+        track.year = canonical.year
+
+    track.mb_recording_id = canonical.recording_id
+    track.mb_release_id = canonical.release_id
 
     return track

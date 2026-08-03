@@ -26,12 +26,11 @@ def ingest(path):
 
             processed += 1
 
-        except Exception:
-            import traceback
+        except Exception as e:
 
             failed += 1
 
-            traceback.print_exc()
+            print(e)
 
     db.close()
 

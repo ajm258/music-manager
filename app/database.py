@@ -2,9 +2,40 @@ import sqlite3
 from dataclasses import asdict
 from app.logger import logger
 from app.models import Track
-
 from app.config import CONFIG
+
 DB_FILE = CONFIG["database"]["path"]
+
+TRACK_COLUMNS = [
+    "source_path",
+    "filename",
+    "title",
+    "artist",
+    "album",
+    "album_artist",
+    "year",
+    "genre",
+    "language",
+    "language_confidence",
+    "language_source",
+    "duration",
+    "bitrate",
+    "codec",
+    "mb_recording_id",
+    "mb_release_id",
+    "artwork",
+    "replaygain",
+    "metadata_score",
+    "status",
+    "file_hash",
+    "acoustid",
+    "fingerprint",
+    "mood",
+    "subgenre",
+    "review_reason",
+    "identification_confidence",
+]
+
 
 
 class Database:
@@ -16,6 +47,8 @@ class Database:
     def save_track(self, track: Track):
 
         data = asdict(track)
+        columns = ", ".join(TRACK_COLUMNS)
+        placeholders = ", ".join(f":{c}" for c in TRACK_COLUMNS)
         cursor = self.conn.cursor()
 
         cursor.execute(
@@ -62,60 +95,41 @@ class Database:
         else:
 
             cursor.execute(
-                """
-                INSERT INTO tracks
-                (
-                    source_path,
-                    filename,
-                    title,
-                    artist,
-                    album,
-                    album_artist,
-                    year,
-                    genre,
-                    language,
-                    language_confidence,
-                    language_source,
-                    duration,
-                    bitrate,
-                    codec,
-                    mb_recording_id,
-                    mb_release_id,
-                    artwork,
-                    file_hash,
-                    metadata_score,
-                    status,
-                    identification_confidence
-                )
-                VALUES
-                (
-                    :source_path,
-                    :filename,
-                    :title,
-                    :artist,
-                    :album,
-                    :album_artist,
-                    :year,
-                    :genre,
-                    :language,
-                    :language_confidence,
-                    :language_source,
-                    :duration,
-                    :bitrate,
-                    :codec,
-                    :mb_recording_id,
-                    :mb_release_id,
-                    :artwork,
-                    :file_hash,
-                    :metadata_score,
-                    :status,
-                    :identification_confidence
-                )
-                """,
-                data,
+               f"""
+               INSERT INTO tracks
+               (
+                   {columns}
+               )
+               VALUES
+               (
+                   {placeholders}
+               )
+               """,
+               data,
             )
 
         self.conn.commit()
+
+    #    def close(self):
+    #        self.conn.close()
+
+    # from dataclasses import fields
+
+    def get_tracks(self):
+
+        cursor = self.conn.cursor()
+
+        cursor.execute(
+              f"""
+              SELECT
+                 {", ".join(TRACK_COLUMNS)}
+              FROM tracks
+              """
+        )
+
+        rows = cursor.fetchall()
+
+        return [Track(**dict(row)) for row in rows]
 
     def close(self):
         self.conn.close()
