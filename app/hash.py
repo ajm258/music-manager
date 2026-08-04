@@ -2,7 +2,6 @@ import hashlib
 
 
 def sha256(filename: str) -> str:
-
     h = hashlib.sha256()
 
     with open(filename, "rb") as f:

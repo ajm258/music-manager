@@ -9,7 +9,6 @@ ARTIST_ALIASES = {
 
 
 def normalize(track: Track) -> Track:
-
     if track.artist in ARTIST_ALIASES:
         track.artist = ARTIST_ALIASES[track.artist]
 

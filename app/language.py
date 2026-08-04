@@ -4,13 +4,12 @@ from app.models import Track
 ARTIST_LANGUAGE = {
     "Michael Learns To Rock": ("English", 100),
     "Michael Jackson": ("English", 100),
-    "A. R. Rahman": ("Mixed", 60),   # many languages
+    "A. R. Rahman": ("Mixed", 60),  # many languages
     "Lata Mangeshkar": ("Mixed", 50),
 }
 
 
 def detect_language(track: Track) -> Track:
-
     if track.artist in ARTIST_LANGUAGE:
         language, confidence = ARTIST_LANGUAGE[track.artist]
 

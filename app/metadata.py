@@ -22,7 +22,6 @@ def _tag(audio, *names):
 
 
 def read_metadata(filename: str) -> Track:
-
     audio = File(filename, easy=True)
 
     track = Track(

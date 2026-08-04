@@ -12,7 +12,6 @@ REQUIRED_FIELDS = [
 
 
 def score(track: Track) -> Track:
-
     total = len(REQUIRED_FIELDS)
     passed = 0
 

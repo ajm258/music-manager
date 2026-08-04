@@ -7,13 +7,11 @@ DB_FILE = "/srv/apps/music-manager/database/music.db"
 
 
 class Database:
-
     def __init__(self):
         self.conn = sqlite3.connect(DB_FILE)
         self.conn.row_factory = sqlite3.Row
 
     def save_track(self, track: Track):
-
         data = asdict(track)
         cursor = self.conn.cursor()
 
@@ -25,7 +23,6 @@ class Database:
         row = cursor.fetchone()
 
         if row:
-
             data["id"] = row["id"]
 
             cursor.execute(
@@ -58,7 +55,6 @@ class Database:
             )
 
         else:
-
             cursor.execute(
                 """
                 INSERT INTO tracks
