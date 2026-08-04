@@ -2,7 +2,7 @@ import logging
 import time
 
 import musicbrainzngs
-
+from pprint import pprint
 from app.canonical import apply, build
 from app.config import CONFIG
 from app.logger import logger
@@ -22,7 +22,6 @@ musicbrainzngs.set_useragent(
 def enrich(track: Track) -> Track:
 
     try:
-
         start = time.perf_counter()
 
         result = musicbrainzngs.search_recordings(
@@ -55,7 +54,6 @@ def enrich(track: Track) -> Track:
             track.mb_release_id = releases[0].get("id")
 
     except Exception as e:
-
         logger.exception("MusicBrainz lookup failed")
 
         return track
@@ -72,10 +70,13 @@ def get_recording(recording_id):
         includes=[
             "artists",
             "releases",
+            "work-rels",
         ],
     )
 
     print(f"get_recording    : {time.perf_counter() - start:.3f}s")
+
+    pprint(result["recording"])
 
     return result["recording"]
 
