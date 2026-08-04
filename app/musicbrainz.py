@@ -1,8 +1,8 @@
-import musicbrainzngs
+import musicbrainzngs  # type: ignore
 
 from app.models import Track
 
-musicbrainzngs.set_useragent("music-manager", "0.1", "amit@example.com")
+musicbrainzngs.set_useragent("music-manager", "0.1", "amit@test.com")
 
 
 def lookup_track(track: Track) -> Track:
