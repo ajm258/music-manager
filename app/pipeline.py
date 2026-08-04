@@ -10,6 +10,7 @@ from app.logger import logger
 from app.publisher import publish
 from app.duplicates import check
 from app.genre import enrich as genre
+import time
 #from app.artwork import enrich as artwork
 
 #def calculate_hash(track):
@@ -39,7 +40,12 @@ def process(filename):
     track = read_metadata(str(filename))
 
     for stage in PIPELINE:
+
+        start = time.perf_counter()
         track = stage(track)
+        elapsed = time.perf_counter() - start
+
+        print(f"{stage.__name__:20} {elapsed:.3f}s")
 
         if track.status in ("FAILED","DUPLICATE"):
              break

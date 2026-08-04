@@ -12,6 +12,7 @@ class CanonicalMetadata:
     recording_id: str
     release_id: str
 
+
 def build(recording, release):
 
     year = None
@@ -22,7 +23,7 @@ def build(recording, release):
     album_artist = ""
 
     if release.get("artist-credit"):
-    album_artist = release["artist-credit"][0]["name"]
+        album_artist = release["artist-credit"][0]["name"]
 
     return CanonicalMetadata(
         title=recording["title"],
@@ -33,6 +34,7 @@ def build(recording, release):
         recording_id=recording["id"],
         release_id=release["id"],
     )
+
 
 def compare(track, canonical):
 
@@ -54,6 +56,7 @@ def compare(track, canonical):
         changes["year"] = (track.year, canonical.year)
 
     return changes
+
 
 def apply(track, canonical):
 

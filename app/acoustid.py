@@ -65,9 +65,9 @@ def enrich(track):
 
     if fp is None:
 
-        track.status = "FAILED"
+        #track.status = "FAILED"
         track.review_reason = "Fingerprint generation failed"
-
+        logger.warning("Fingerprint generation failed: %s", track.source_path)
         return track
 
     result = identify(duration, fp)

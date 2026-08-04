@@ -16,9 +16,9 @@ for file in find_audio_files("/srv/pool/media/music/work"):
     try:
 
         track = process(file)
-
+        start = time.perf_counter()
         db.save_track(track)
-
+        print(time.perf_counter() - start)
         count += 1
 
     except Exception as e:
